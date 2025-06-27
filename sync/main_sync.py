@@ -2,18 +2,18 @@
 
 import asyncio
 import logging
-import sys
 from datetime import datetime
 import schedule
 import time
 from typing import Dict, Any
-
-# Import shared configuration
+# Since this script is in sync directory, go back one in sys path to access shared config files
+import sys
+sys.path.append('..')
+# Import shared configuration from main directory
 from config import AppConfig, load_config, create_env_template, validate_environment
-
-# Import our sync modules
-from square_sync import SquareDataSync
-from social_media_sync import SocialMediaSync
+# Import our sync modules from sync directory
+from sync.square_sync import SquareDataSync
+from sync.social_media_sync import SocialMediaSync
 
 class MasterDataSync:
     def __init__(self, config: AppConfig):
