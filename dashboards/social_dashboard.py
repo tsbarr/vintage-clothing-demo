@@ -12,7 +12,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import load_config
 
 # Initialize app
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.COSMO])
 
 # Function to connect to db and get data to display
 def get_data():
@@ -231,7 +231,7 @@ def update_summary_cards(selected_platform):
     dbc.Col([
         dbc.Card([
             dbc.CardBody([
-                html.H2(f"{viral_posts:,}", className="text-danger mb-0"),
+                html.H2(f"{viral_posts:,}", className="text-info mb-0"),
                 html.P("Viral Posts (>10%)", className="text-muted mb-0")
             ])
         ], className="text-center")
