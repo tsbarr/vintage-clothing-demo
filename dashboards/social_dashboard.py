@@ -2,9 +2,7 @@ import dash
 from dash import dcc, html, Input, Output, Dash, dash_table
 import plotly.express as px
 import pandas as pd
-import psycopg2
-import warnings
-warnings.filterwarnings('ignore', message='pandas only supports SQLAlchemy')
+from sqlalchemy import create_engine
 # Since this script is in dashboards directory, find parent directory to access shared config files
 import os
 import sys
@@ -19,14 +17,8 @@ app = dash.Dash(__name__)
 def get_data():
     try:
         config = load_config()
-        # Connect to the database
-        conn = psycopg2.connect(
-            host=config.database.host,
-            port=config.database.port,
-            database=config.database.database,
-            user=config.database.user,
-            password=config.database.password
-        )
+        # Create SQLAlchemy connection engine
+        engine = create_engine(config.database.connection_string)
         # Query to get data
         sql_text = '''
             SELECT 
@@ -47,8 +39,8 @@ def get_data():
             JOIN social_media_accounts a ON p.account_id = a.account_id
             ORDER BY p.posted_date DESC
         '''
-        df = pd.read_sql_query(sql_text, conn)
-        conn.close()
+        df = pd.read_sql_query(sql_text, engine)
+        
         return df
 
 
