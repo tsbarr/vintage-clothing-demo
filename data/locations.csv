@@ -1,0 +1,13 @@
+location_id,location_name,location_type,address,city,state_province,country,postal_code,market_fee,setup_date,end_date,is_active,notes
+1,Angel Harbor Market,festival,21819 Johnson Course,Toronto,ON,Canada,L9X 4A9,53.75,2023-10-09,,True,Dolore nihil repellat ab rem praesentium.
+2,Ramirez Forge Market,pop_up_market,16155 Roman Stream Suite 816,Toronto,ON,Canada,P4M 2P1,160.47,2024-11-23,,True,Quo voluptates sequi sint fugit.
+3,Reid Lakes Market,festival,5341 Amanda Gardens,Toronto,ON,Canada,N9R 4L6,54.77,2023-04-06,,True,Dolorem adipisci et eaque.
+4,Robin Port Market,pop_up_market,76724 John Points Suite 969,Mississauga,ON,Canada,M9K8G2,140.3,2024-07-28,,True,Similique corrupti cum.
+5,Carlson Lights Market,craft_fair,784 Erin Crescent Suite 514,Brampton,ON,Canada,L5T9A3,155.2,2024-03-05,,True,Totam sit error odit non corrupti quis.
+6,Carol Overpass Market,festival,54303 Christopher Oval,Hamilton,ON,Canada,P8G 9G3,91.73,2023-01-07,,True,Minus non vitae ut quidem.
+7,Jennifer Locks Market,festival,8713 Caleb Brooks Apt. 930,Burlington,ON,Canada,K1K 6C2,101.04,2023-06-09,,True,Dolores pariatur distinctio consequatur vel necessitatibus labore.
+8,Aguirre Field Market,craft_fair,65667 Emily Rue,Oakville,ON,Canada,K2R 4N4,100.49,2023-04-05,,False,Modi consequuntur delectus iure soluta.
+9,Scott Wall Market,pop_up_market,80132 Tucker Forest,Markham,ON,Canada,K1H7R5,177.12,2024-09-10,,True,Eligendi possimus quas quos optio laborum deleniti.
+10,Tanya Prairie Market,craft_fair,500 Shaw Walk,Richmond Hill,ON,Canada,K3X 2C2,159.46,2024-07-03,,True,Illo velit necessitatibus neque aliquam.
+11,Robert Prairie Market,craft_fair,3534 Anderson Rue Suite 751,Vaughan,ON,Canada,N9E 4C9,106.78,2024-07-19,,True,Consequatur expedita architecto doloribus eligendi.
+12,Online Store,online_only,,Online,ON,Canada,,0.0,,,True,Instagram and direct messages
