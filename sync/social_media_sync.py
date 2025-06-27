@@ -10,7 +10,10 @@ import asyncio
 import aiohttp
 import re
 
-# Import shared configuration
+# Since this script is in sync directory, go back one in sys path to access shared config files
+import sys
+sys.path.append('..')
+# Import shared configuration from main directory
 from config import DatabaseConfig, SocialMediaConfig
 
 class SocialMediaSync:
