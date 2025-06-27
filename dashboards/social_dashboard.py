@@ -10,9 +10,10 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Import shared configuration from main directory
 from config import load_config
 
+# Initialize app
 app = dash.Dash(__name__)
 
-# Database connection function
+# Function to connect to db and get data to display
 def get_data():
     try:
         config = load_config()
@@ -53,18 +54,47 @@ def get_data():
         print(f"Database error: {e}")
         return pd.DataFrame()  # Return empty DataFrame on error
 
-# get df
-df = get_data()
-
-# Initialize the app
-app = Dash()
-
-
-# Basic layout
+# App layout
 app.layout = html.Div([
-    html.H1("Social Media Analytics"),
-    dash_table.DataTable(data=df.to_dict('records'), page_size=10)
+    html.H1("Social Media Analytics - Vintage Clothing Demo"),
+    html.H2("Viral Content Detection"),
+    
+    # Add a graph component
+    dcc.Graph(id='engagement-scatter'),
+    
+    # Add a dropdown for filtering
+    html.Label("Platform:"),
+    dcc.Dropdown(
+        id='platform-filter',
+        options=[
+            {'label': 'All Platforms', 'value': 'all'},
+            {'label': 'Instagram', 'value': 'instagram'},
+            {'label': 'TikTok', 'value': 'tiktok'}
+        ],
+        value='all'
+    )
 ])
+
+@app.callback(
+    Output('engagement-scatter', 'figure'),
+    Input('platform-filter', 'value')
+)
+def update_engagement_scatter(selected_platform):
+    df = get_data()  # Get your data
+    
+    # Filter by platform if not 'all'
+    if selected_platform != 'all':
+        df = df[df['platform'] == selected_platform]
+    
+    # Create scatter plot
+    fig = px.scatter(
+        df, 
+        x='impressions', 
+        y='engagement_rate',
+        color='platform',
+        size='saves',
+        title='Engagement Rate vs Impressions (Viral Content Detection)')
+    return fig
 
 if __name__ == '__main__':
     app.run_server(debug=True)
