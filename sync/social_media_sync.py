@@ -10,9 +10,10 @@ import asyncio
 import aiohttp
 import re
 
-# Since this script is in sync directory, go back one in sys path to access shared config files
+# Since this script is in sync directory, find parent directory to access shared config files
+import os
 import sys
-sys.path.append('..')
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Import shared configuration from main directory
 from config import DatabaseConfig, SocialMediaConfig
 
