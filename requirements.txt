@@ -21,3 +21,6 @@ pytest-asyncio==0.21.1
 
 # Generate mock data
 faker==37.3.0
+
+# For dashboards,will install as prereqs: flask, plotly, among others
+dash==2.14.2
