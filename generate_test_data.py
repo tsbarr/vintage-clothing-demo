@@ -1,4 +1,4 @@
-# test_data.py - Updated with better data directory handling
+# generate_test_data.py - Updated with better data directory handling
 
 import pandas as pd
 import numpy as np

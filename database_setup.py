@@ -362,7 +362,7 @@ if __name__ == "__main__":
         if success:
             print("\n✓ Database setup completed successfully!")
             print("\nNext steps:")
-            print("1. Generate test data: python test_data.py")
+            print("1. Generate test data: python generate_test_data.py")
             print("2. Load test data: python load_csv_data.py")
             print("3. Test sync: python main_sync.py health")
         else:
