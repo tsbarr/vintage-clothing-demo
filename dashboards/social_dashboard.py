@@ -1,9 +1,10 @@
 import dash
-from dash import dcc, html, Input, Output, Dash, dash_table
+import dash_bootstrap_components as dbc
+from dash import dcc, html, Input, Output
 import plotly.express as px
 import pandas as pd
 from sqlalchemy import create_engine
-# Since this script is in dashboards directory, find parent directory to access shared config files
+# find parent directory to access shared config files
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -11,7 +12,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import load_config
 
 # Initialize app
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 # Function to connect to db and get data to display
 def get_data():
@@ -48,50 +49,82 @@ def get_data():
         print(f"Database error: {e}")
         return pd.DataFrame()  # Return empty DataFrame on error
 
-# App layout
-app.layout = html.Div([
-    html.H1("Social Media Analytics - Vintage Clothing Demo"),
-    # 1
-    
-    html.H2("Performance Summary"),
-    html.Div(id='summary-cards', style={'display': 'flex', 'gap': '20px', 'margin': '20px 0'}),
-    # 2
-    html.Hr(),
-    html.H2("Viral Content Detection"),
-    
-    
-    # Add a graph component
-    dcc.Graph(id='engagement-scatter'),
-    
-    # Add a dropdown for filtering
-    html.Label("Platform:"),
-    dcc.Dropdown(
-        id='platform-filter',
-        options=[
-            {'label': 'All Platforms', 'value': 'all'},
-            {'label': 'Instagram', 'value': 'instagram'},
-            {'label': 'TikTok', 'value': 'tiktok'}
-        ],
-        value='all'
-    ),
-    # 2
-    html.Hr(),
-    html.H2("Clientbase Building Analysis"),
-    dcc.Graph(id='clientbase-metrics'),
+# # App layout
 
-    html.Label("Metric to Analyze:"),
-    dcc.Dropdown(
-        id='metric-selector',
-        options=[
-            {'label': 'Save Rate (Future Customers)', 'value': 'saves'},
-            {'label': 'Comment Engagement', 'value': 'comments'},
-            {'label': 'Share Potential', 'value': 'shares'}
-        ],
-        value='saves'
-    )
+app.layout = dbc.Container([
+    # Header
+    dbc.Row([
+        dbc.Col([
+            html.H1("Social Media Analytics", className="text-center mb-4"),
+            html.H4("Vintage Clothing Demo", className="text-center text-muted mb-4")
+        ])
+    ]),
+    # Filters
+    dbc.Row([
+        dbc.Col([
+            dbc.Label("Platform Filter:", className="fw-bold"),
+            dcc.Dropdown(
+                id='platform-filter',
+                options=[
+                    {'label': 'All Platforms', 'value': 'all'},
+                    {'label': 'Instagram', 'value': 'instagram'},
+                    {'label': 'TikTok', 'value': 'tiktok'}
+                ],
+                value='all',
+                className="mb-3"
+            )
+        ], width=6)
+    ]),
+    
+    # Performance Summary Cards
+    dbc.Row([
+        dbc.Col([
+            html.H3("Performance Summary", className="mb-3"),
+            html.Div(id='summary-cards')
+        ])
+    ], className="mb-4"),
     
     
+    
+    # Main Charts
+    dbc.Row([
+        dbc.Col([
+            dbc.Card([
+                dbc.CardHeader(html.H4("Viral Content Detection", className="mb-0")),
+                dbc.CardBody([
+                    dcc.Graph(id='engagement-scatter')
+                ])
+            ])
+        ])
+    ], className="mb-4"),
+    
+    # Second row of analysis
+    dbc.Row([
+        dbc.Col([
+            dbc.Card([
+                dbc.CardHeader(html.H4("Clientbase Building Analysis", className="mb-0")),
+                dbc.CardBody([
+                    dbc.Row([
+                        dbc.Col([
+                            dbc.Label("Metric to Analyze:", className="fw-bold"),
+                            dcc.Dropdown(
+                                id='metric-selector',
+                                options=[
+                                    {'label': 'Save Rate (Future Clients)', 'value': 'saves'},
+                                    {'label': 'Comment Engagement', 'value': 'comments'},
+                                    {'label': 'Share Potential', 'value': 'shares'}
+                                ],
+                                value='saves',
+                                className="mb-3"
+                            )
+                        ], width=6)
+                    ]),
+                    dcc.Graph(id='clientbase-metrics')
+                ])
+            ])
+        ])
     ])
+], fluid=True, className="p-4")
 
 @app.callback(
     Output('engagement-scatter', 'figure'),
@@ -169,28 +202,43 @@ def update_summary_cards(selected_platform):
     
     # Create summary cards
     cards = [
-        html.Div([
-            html.H3(f"{total_posts:,}", style={'margin': '0', 'color': '#1f77b4'}),
-            html.P("Total Posts", style={'margin': '0'})
-        ], style={'textAlign': 'center', 'padding': '20px', 'border': '1px solid #ddd', 'borderRadius': '5px'}),
-        
-        html.Div([
-            html.H3(f"{avg_engagement:.1%}", style={'margin': '0', 'color': '#ff7f0e'}),
-            html.P("Avg Engagement", style={'margin': '0'})
-        ], style={'textAlign': 'center', 'padding': '20px', 'border': '1px solid #ddd', 'borderRadius': '5px'}),
-        
-        html.Div([
-            html.H3(f"{total_impressions:,}", style={'margin': '0', 'color': '#2ca02c'}),
-            html.P("Total Impressions", style={'margin': '0'})
-        ], style={'textAlign': 'center', 'padding': '20px', 'border': '1px solid #ddd', 'borderRadius': '5px'}),
-        
-        html.Div([
-            html.H3(f"{viral_posts}", style={'margin': '0', 'color': '#d62728'}),
-            html.P("Viral Posts (>10%)", style={'margin': '0'})
-        ], style={'textAlign': 'center', 'padding': '20px', 'border': '1px solid #ddd', 'borderRadius': '5px'})
+        dbc.Col([
+        dbc.Card([
+            dbc.CardBody([
+                html.H2(f"{total_posts:,}", className="text-primary mb-0"),
+                html.P("Total Posts", className="text-muted mb-0")
+            ])
+        ], className="text-center")
+    ], width=3),
+    
+    dbc.Col([
+        dbc.Card([
+            dbc.CardBody([
+                html.H2(f"{avg_engagement:.1%}", className="text-warning mb-0"),
+                html.P("Avg Engagement", className="text-muted mb-0")
+            ])
+        ], className="text-center")
+    ], width=3),
+    dbc.Col([
+        dbc.Card([
+            dbc.CardBody([
+                html.H2(f"{total_impressions:,}", className="text-success mb-0"),
+                html.P("Total Impressions", className="text-muted mb-0")
+            ])
+        ], className="text-center")
+    ], width=3),
+    
+    dbc.Col([
+        dbc.Card([
+            dbc.CardBody([
+                html.H2(f"{viral_posts:,}", className="text-danger mb-0"),
+                html.P("Viral Posts (>10%)", className="text-muted mb-0")
+            ])
+        ], className="text-center")
+    ], width=3)
     ]
     
-    return cards
+    return dbc.Row(cards)
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)
